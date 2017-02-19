@@ -26,7 +26,12 @@ class ParticipantController extends Controller
         //return $order_id+1;
 
         if($order_id > 0 && $order_id <= 1000){
-            return redirect()->action('ParticipantController@step1', ['order_id' => $order_id]);
+            $num = Participant::where('order_id', '=', $order_id)->count();
+            if($num < 2){
+                return redirect()->action('ParticipantController@step1', ['order_id' => $order_id]);
+            }else{
+                return response()->json(['msg' => 'Quota Exceed, Maximum is 2 persons!']);
+            }
         }else{
             return response()->json(['msg' => 'Sorry, This OrderID is invalid or already register!']);
         }
@@ -75,17 +80,12 @@ class ParticipantController extends Controller
     {
         $participant = $request->all();
 
-        $token = (new TokenGenerator())->generate(10);
+        $token = (new TokenGenerator())->generate(16);
         $participant['token'] = $token;
 
         $participant = Participant::create($participant);
 
-        $url = $request->url();
-        $url .= '/register/'.$token;
-
-        QrCode::format('png')
-            ->size(500)
-            ->generate($url, '../public/qrcode/'.$participant->id.'.png');
+        self::genQrCode($participant);
 
         return redirect()->action('ParticipantController@step2', ['order_id' => $participant->order_id]);
     }
@@ -94,17 +94,12 @@ class ParticipantController extends Controller
     {
         $participant = $request->all();
 
-        $token = (new TokenGenerator())->generate(10);
+        $token = (new TokenGenerator())->generate(16);
         $participant['token'] = $token;
 
         $participant = Participant::create($participant);
 
-        $url = $request->url();
-        $url .= '/register/'.$token;
-
-        QrCode::format('png')
-            ->size(500)
-            ->generate($url, '../public/qrcode/'.$participant->id.'.png');
+        self::genQrCode($participant);
 
         return redirect()->action('ParticipantController@step3', ['order_id' => $participant->order_id]);
     }
@@ -139,10 +134,11 @@ class ParticipantController extends Controller
 
     #-------------------------------------------------------------------------------------------------------------------
 
-    public function registerWithQR($token)
+    public function registerWithQR(Request $request)
     {
-        $participant = Participant::where('token', '=', $token)->first();
-
+        $token = $request->get('token');
+        return $token;
+        /*$participant = Participant::where('token', '=', $token)->first();
         if ($participant != null){
             $participant->is_attend = 1;
             $participant->attend_time = Carbon::now();
@@ -151,6 +147,24 @@ class ParticipantController extends Controller
             return $participant->firstName.' เข้าร่วมงาน!!!';
         }else {
             echo 'please register';
-        }
+        }*/
+    }
+
+    public function gainItem(Request $request)
+    {
+        $token = $request->get('token');
+        return $token;
+    }
+
+    public function scan()
+    {
+        return view('scan');
+    }
+
+    public function genQrCode($participant)
+    {
+        QrCode::format('png')
+            ->size(500)
+            ->generate($participant->token, '../public/qrcode/'.$participant->id.'.png');
     }
 }

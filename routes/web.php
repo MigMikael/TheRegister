@@ -30,8 +30,12 @@ Route::patch('participant/{id}', 'ParticipantController@update');
 
 //Route::resource('participant', 'ParticipantController');
 
-Route::get('participant/register/{token}', 'ParticipantController@registerWithQR');
+Route::post('participant/register', 'ParticipantController@registerWithQR');
+
+Route::post('participant/gain', 'ParticipantController@gainItem');
 
 //Route::get('test/testGenQR', 'ParticipantController@testGenQR');
+
+Route::get('scan', 'ParticipantController@scan');
 
 
