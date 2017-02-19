@@ -13,5 +13,7 @@ $(document).ready(function(){
 	    var token = $('#read').text();
         $('#user_token1').val(token);
         $('#user_token2').val(token);
+
+        $('body').css('background-color', '#CCFF90');
     })
 });
