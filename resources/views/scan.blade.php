@@ -3,10 +3,18 @@
 <head>
     @include('_head')
     {{--<link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">--}}
-    <script src="{{ URL::asset('library/jquery-1.9.1.min.js') }}"></script>
+    
+    {{--<script src="{{ URL::asset('library/jquery-1.9.1.min.js') }}"></script>
     <script src="{{ URL::asset('library/jsqrcode-combined.min.js') }}"></script>
     <script src="{{ URL::asset('library/html5-qrcode.min.js') }}"></script>
-    <script src="{{ URL::asset('library/main.js') }}"></script>
+    <script src="{{ URL::asset('library/main.js') }}"></script>--}}
+
+    <script src="https://the-register.herokuapp.com/library/jquery-1.9.1.min.js"></script>
+    <script src="https://the-register.herokuapp.com/library/jsqrcode-combined.min.js"></script>
+    <script src="https://the-register.herokuapp.com/library/html5-qrcode.min.js"></script>
+    <script src="https://the-register.herokuapp.com/library/main.js"></script>
+
+
     <title>Scan Qr Code</title>
     <script>
         /*window.onload = function () {
