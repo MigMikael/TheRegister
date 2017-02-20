@@ -28,14 +28,17 @@ Route::post('store_step_2', 'ParticipantController@storeStep2');
 Route::get('participant/{id}/edit', 'ParticipantController@edit');
 Route::patch('participant/{id}', 'ParticipantController@update');
 
-//Route::resource('participant', 'ParticipantController');
-
 Route::post('participant/register', 'ParticipantController@registerWithQR');
 
 Route::post('participant/gain', 'ParticipantController@gainItem');
 
+Route::get('participant/qrcode/{id}', 'ParticipantController@getQrCode');
+
 //Route::get('test/testGenQR', 'ParticipantController@testGenQR');
 
 Route::get('scan', 'ParticipantController@scan');
+
+Route::get('admin', 'AdminController@index');
+Route::get('admin/show/{order_id}', 'AdminController@show');
 
 

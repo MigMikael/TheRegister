@@ -14,7 +14,7 @@
                             <p>{{ $participant->lastName }}</p><br>
                             <p>{{ $participant->category }}</p><br>
 
-                            <img src="{{ URL::asset('qrcode/'.$participant->id.'.png') }}" alt="">
+                            <img class="thumbnail" src="{{ url('participant/qrcode/'.$participant->id) }}" style="width:100%; height:100%">
                         </div>
                         <div class="panel-footer">
                             <a href="{{ url('participant/'.$participant->id.'/edit') }}"

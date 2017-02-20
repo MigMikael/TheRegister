@@ -80,12 +80,10 @@ class ParticipantController extends Controller
     {
         $participant = $request->all();
 
-        $token = (new TokenGenerator())->generate(16);
+        $token = (new TokenGenerator())->generate(10);
         $participant['token'] = $token;
 
         $participant = Participant::create($participant);
-
-        self::genQrCode($participant);
 
         return redirect()->action('ParticipantController@step2', ['order_id' => $participant->order_id]);
     }
@@ -94,12 +92,10 @@ class ParticipantController extends Controller
     {
         $participant = $request->all();
 
-        $token = (new TokenGenerator())->generate(16);
+        $token = (new TokenGenerator())->generate(10);
         $participant['token'] = $token;
 
         $participant = Participant::create($participant);
-
-        self::genQrCode($participant);
 
         return redirect()->action('ParticipantController@step3', ['order_id' => $participant->order_id]);
     }
@@ -137,8 +133,8 @@ class ParticipantController extends Controller
     public function registerWithQR(Request $request)
     {
         $token = $request->get('token');
-        return $token;
-        /*$participant = Participant::where('token', '=', $token)->first();
+
+        $participant = Participant::where('token', '=', $token)->first();
         if ($participant != null){
             $participant->is_attend = 1;
             $participant->attend_time = Carbon::now();
@@ -147,13 +143,23 @@ class ParticipantController extends Controller
             return $participant->firstName.' เข้าร่วมงาน!!!';
         }else {
             echo 'please register';
-        }*/
+        }
     }
 
     public function gainItem(Request $request)
     {
         $token = $request->get('token');
-        return $token;
+
+        $participant = Participant::where('token', '=', $token)->first();
+        if ($participant != null){
+            $participant->is_gain = 1;
+            $participant->gain_time = Carbon::now();
+            $participant->save();
+
+            return $participant->firstName.' ได้รับของเรียบร้อย!!!';
+        }else {
+            echo 'please register';
+        }
     }
 
     public function scan()
@@ -161,10 +167,15 @@ class ParticipantController extends Controller
         return view('scan');
     }
 
-    public function genQrCode($participant)
+    public function getQrCode($id)
     {
-        QrCode::format('png')
-            ->size(500)
-            ->generate($participant->token, '../public/qrcode/'.$participant->id.'.png');
+        $participant = Participant::findOrFail($id);
+        $qr = QrCode::format('png')
+                ->size(400)
+                ->merge('\public\image\sc-su-logo-eng.png', .15)
+                ->errorCorrection('H')
+                ->generate($participant->token);
+
+        return response($qr, 200)->header('Content-Type', 'image/png');
     }
 }
