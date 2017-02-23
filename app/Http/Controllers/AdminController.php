@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $participants = Participant::all();
+        $participants = Participant::orderBy('order_id')->get();
         return view('admin.index', ['participants' => $participants]);
     }
 
@@ -17,6 +17,29 @@ class AdminController extends Controller
     {
         $participants = Participant::where('order_id', '=', $order_id)->get();
 
+        $participants = self::translateCategory($participants);
+
         return view('admin.show', ['participants' => $participants]);
+    }
+
+    public function translateCategory($participants)
+    {
+        foreach ($participants as $participant){
+            if($participant->category == 'teacher')
+                $participant->category = 'อาจารย์';
+
+            elseif ($participant->category == 'staff')
+                $participant->category = 'เจ้าหน้าที่';
+
+            elseif ($participant->category == 'alumni')
+                $participant->category = 'ศิษย์เก่า';
+
+            elseif ($participant->category == 'student')
+                $participant->category = 'นักศึกษา';
+
+            elseif ($participant->category == 'person')
+                $participant->catagory = 'บุคคลทั่วไป';
+        }
+        return $participants;
     }
 }

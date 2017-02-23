@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Anouar\Fpdf\FpdfServiceProvider::class,
     ],
 
     /*
@@ -229,6 +230,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Fpdf'    => 'Anouar\Fpdf\Facades\Fpdf',
 
     ],
 

@@ -15,27 +15,32 @@
                             </div>
                             <div class="col-md-8 col-xs-12">
                                 <div class="col-md-6">
-                                    <h4><b>FirstName :</b> {{ $participant->firstName }}</h4>
-                                    <h4><b>LastName : </b>{{ $participant->lastName }}</h4>
-                                    <h4><b>Category : </b>{{ $participant->category }}</h4>
-                                    <p>PhoneNumber : {{ $participant->phoneNumber }}</p>
-                                    <p>Email : {{ $participant->email }}</p>
+                                    <h3><b>FirstName :</b> {{ $participant->firstName }}</h3>
+                                    <h3><b>LastName : </b>{{ $participant->lastName }}</h3>
+                                    <h3><b>Category : </b>{{ $participant->category }}</h3>
+                                    <br>
+                                    <h4>PhoneNumber : {{ $participant->phoneNumber }}</h4>
+                                    <h4>Email : {{ $participant->email }}</h4>
                                 </div>
                                 <div class="col-md-6">
-                                    <h4>Attend : {{ $participant->is_attend }}</h4>
-                                    <p>Attend Time : {{ $participant->attend_time }}</p>
-                                    <h4>Gain : {{ $participant->is_gain }}</h4>
-                                    <p>Gain Time : {{ $participant->gain_time }}</p>
+                                    <h3>Attend : {{ $participant->is_attend }}</h3>
+                                    <h4>Attend Time : {{ $participant->attend_time }}</h4>
+                                    <br>
+                                    <h3>Gain : {{ $participant->is_gain }}</h3>
+                                    <h4>Gain Time : {{ $participant->gain_time }}</h4>
                                 </div>
                                 <hr>
+                                <br>
                                 <div class="col-md-12">
-                                    <p>Address : {{ $participant->address }}</p>
+                                    <h4>Address : {{ $participant->address }}</h4>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <a href="{{ url('participant/'.$participant->id.'/edit') }}"
-                               class="btn btn-warning">Edit</a>
+                            <a href="{{ url('participant/'.$participant->id.'/edit') }}" class="btn btn-warning">
+                                Edit
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
                         </div>
                     </div>
                 </div>

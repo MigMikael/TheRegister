@@ -15,7 +15,7 @@ class CreateParticipantsTable extends Migration
     {
         Schema::create('participants', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id');
+            $table->integer('order_id')->unsigned();
 
             $table->string('firstName');
             $table->string('lastName');
