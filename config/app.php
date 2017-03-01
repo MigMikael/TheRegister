@@ -230,7 +230,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-        'Fpdf'    => 'Anouar\Fpdf\Facades\Fpdf',
+        'Fpdf'    => Anouar\Fpdf\Facades\Fpdf::class,
 
     ],
 

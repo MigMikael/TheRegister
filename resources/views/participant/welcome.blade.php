@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="jumbotron" style="text-align: center">
+        <div class="jumbotron card-header col-md-10 col-md-offset-1 col-xs-offset-0">
             <h1>ยินดีต้อนรับเข้าสู่ระบบลงทะเบียน</h1>
             <h2>พิธีมหาเทวาภิเษก</h2>
             <br>

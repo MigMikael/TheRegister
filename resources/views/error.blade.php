@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-    <div class="jumbotron" style="text-align: center">
+    <div class="jumbotron card-header col-md-10 col-md-offset-1 col-xs-offset-0">
         <h1>{{ $error_message['header'] }}</h1>
         <h3>{{ $error_message['content'] }}</h3>
         <hr>

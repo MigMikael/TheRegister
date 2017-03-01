@@ -218,7 +218,7 @@ class ParticipantController extends Controller
         $price = 0;
         foreach ($itemOrders as $itemOrder){
             $itemOrder->item;
-            $price += $itemOrder->item->price;
+            $price += $itemOrder->item->price * $itemOrder->amount;
             $orderData[$itemOrder->item_id] = $itemOrder;
         }
 
