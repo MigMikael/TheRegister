@@ -18,6 +18,7 @@ class Participant extends Model
         'phoneNumber',
         'email',
         'token',
+        'couple_token',
         'category',
         'is_attend',
         'attend_time',

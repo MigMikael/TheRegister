@@ -9,14 +9,14 @@
                         <h1>กรอกข้อมูลของบุคคลที่หนึ่ง</h1>
                     @else
                         <h1>กรอกข้อมูลของบุคคลที่สอง</h1>
-                        <a href="{{ url('step_3/'.$order_id) }}" class="btn btn-default btn-lg">
+                        <a href="{{ url('finish/'.$order_id.'/'.$couple_token) }}" class="btn btn-default btn-lg">
                             Skip
                             <span class="glyphicon glyphicon-share"></span>
                         </a>
                     @endif
                 </div>
                 {!! Form::open(['url' => $url, 'class' => 'form-horizontal']) !!}
-                <div class="panel-body" style="background: #f5f5f5">
+                <div class="panel-body">
                     @include('participant._form')
                 </div>
                 <div class="panel-footer">

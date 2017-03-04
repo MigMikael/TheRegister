@@ -23,6 +23,7 @@ class CreateParticipantsTable extends Migration
             $table->string('phoneNumber');
             $table->string('email');
             $table->string('token')->unique();
+            $table->string('couple_token');
 
             $table->enum('category', [
                 'teacher',  //อาจารย์

@@ -18,26 +18,30 @@ Route::get('/', function (){
 Route::get('welcome', 'ParticipantController@welcome');
 Route::post('welcome/check_order_id', 'ParticipantController@checkOrderId');
 
-Route::get('step_1/{order_id}', 'ParticipantController@step1');
-Route::get('step_2/{order_id}', 'ParticipantController@step2');
-Route::get('step_3/{order_id}', 'ParticipantController@step3');
+Route::get('step_1/{order_id}/{couple_token}', 'ParticipantController@step1');
+Route::get('step_2/{order_id}/{couple_token}', 'ParticipantController@step2');
+Route::get('finish/{order_id}/{couple_token}', 'ParticipantController@finish');
+
 Route::post('store_step_1', 'ParticipantController@storeStep1');
 Route::post('store_step_2', 'ParticipantController@storeStep2');
 
-Route::get('participant/{id}/edit', 'ParticipantController@edit');
+Route::get('participant/{token}/edit', 'ParticipantController@edit');
 Route::patch('participant/{id}', 'ParticipantController@update');
 
 Route::post('participant/register', 'ParticipantController@registerWithQR');
-
 Route::post('participant/gain', 'ParticipantController@gainItem');
-Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
 
-Route::get('participant/qrcode/{id}', 'ParticipantController@getQrCode');
+Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
+Route::get('participant/qrcode/{token}', 'ParticipantController@getQrCode');
+Route::get('participant/pdf/{couple_token}','ParticipantController@getPdf');
+
 Route::get('scan', function (){
     return view('scan');
 });
 
 Route::get('error/{error_msg}', 'ParticipantController@handleError');
+
+#-----------------------------------------------------------------------------------------------------------------------
 
 Route::get('admin', 'AdminController@index');
 Route::get('admin/show/{order_id}', 'AdminController@show');

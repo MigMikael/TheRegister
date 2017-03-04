@@ -13,7 +13,7 @@ class ParticipantsTableSeeder extends Seeder
     public function run()
     {
         $generator = new TokenGenerator();
-
+        $coupleToken = $generator->generate(10);
         DB::table('participants')->insert([
             'order_id' => 0001,
             'firstName' => 'สาริน',
@@ -22,6 +22,7 @@ class ParticipantsTableSeeder extends Seeder
             'phoneNumber' => '0877777788',
             'email' => 'sarin@example.com',
             'token' => $generator->generate(10),
+            'couple_token' => $coupleToken,
             'category' => 'student',
         ]);
 
@@ -33,9 +34,12 @@ class ParticipantsTableSeeder extends Seeder
             'phoneNumber' => '0888888877',
             'email' => 'pakorn@example.com',
             'token' => $generator->generate(10),
+            'couple_token' => $coupleToken,
             'category' => 'student',
         ]);
 
+
+        $coupleToken = $generator->generate(10);
         DB::table('participants')->insert([
             'order_id' => 0002,
             'firstName' => 'สพล',
@@ -44,6 +48,7 @@ class ParticipantsTableSeeder extends Seeder
             'phoneNumber' => '0070007777',
             'email' => 'grsp@example.com',
             'token' => $generator->generate(10),
+            'couple_token' => $coupleToken,
             'category' => 'student',
         ]);
 
@@ -55,9 +60,11 @@ class ParticipantsTableSeeder extends Seeder
             'phoneNumber' => '0070007777',
             'email' => 'pporsche@example.com',
             'token' => $generator->generate(10),
+            'couple_token' => $coupleToken,
             'category' => 'student',
         ]);
 
+        $coupleToken = $generator->generate(10);
         DB::table('participants')->insert([
             'order_id' => 0003,
             'firstName' => 'ภาคภูมิ',
@@ -66,6 +73,7 @@ class ParticipantsTableSeeder extends Seeder
             'phoneNumber' => '0070007777',
             'email' => 'pakphoom@example.com',
             'token' => $generator->generate(10),
+            'couple_token' => $coupleToken,
             'category' => 'student',
         ]);
     }

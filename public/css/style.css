@@ -46,7 +46,7 @@ body {
 }
 
 .card-header {
-    background: #f5f5f5;
+    background: #E0E0E0;
     text-align: center;
 }
 
@@ -56,6 +56,10 @@ a {
 }
 
 a:hover, a:focus {
+    color: #000000;
+}
+
+td > a {
     color: #000000;
 }
 
@@ -87,6 +91,24 @@ a:hover, a:focus {
     color: #FFFFFF;
 }
 
+.panel-body {
+    background: #EEEEEE;
+}
+
+.panel-footer {
+    background: #E0E0E0;
+    text-align: center;
+}
+
 input {
     font-size: larger;
+}
+
+.pagination > .active > span {
+    background-color: #00897B;
+    border-color: #00897B;
+}
+
+.pagination > li > a {
+    color: #00897B;
 }

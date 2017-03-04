@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $participants = Participant::orderBy('order_id')->get();
+        $participants = Participant::orderBy('order_id', 'desc')->paginate(15);
         return view('admin.index', ['participants' => $participants]);
     }
 

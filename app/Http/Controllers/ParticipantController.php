@@ -8,6 +8,8 @@ use App\Participant;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
+use Anouar\Fpdf\Fpdf;
+use Log;
 
 class ParticipantController extends Controller
 {
@@ -24,24 +26,34 @@ class ParticipantController extends Controller
         $order_id_4 = $request->get('order_id_4');
 
         $order_id = (int)($order_id_1.$order_id_2.$order_id_3.$order_id_4);
-        //return $order_id+1;
-
-        //$lastParticipant = Participant::orderBy('order_id', 'desc')->first();
 
         if($order_id > 0 && $order_id <= 600){
             $num = Participant::where('order_id', '=', $order_id)->count();
 
             if($num == 0){
                 // already register 0 person >> step 1
-                return redirect()->action('ParticipantController@step1', ['order_id' => $order_id]);
+                $generator = new TokenGenerator();
+                $couple_token = $generator->generate(10);
+                return redirect()->action('ParticipantController@step1', [
+                    'order_id' => $order_id,
+                    'couple_token' => $couple_token,
+                ]);
             }
             elseif($num == 1){
                 // already register 1 person >> step 2
-                return redirect()->action('ParticipantController@step2', ['order_id' => $order_id]);
+                $participant = Participant::where('order_id', '=', $order_id)->first();
+                return redirect()->action('ParticipantController@step2', [
+                    'order_id' => $order_id,
+                    'couple_token' => $participant->couple_token,
+                ]);
             }
             else{
-                // already register 2 person >> step 3
-                return redirect()->action('ParticipantController@step3', ['order_id' => $order_id]);
+                // already register 2 person >> finish
+                $participant = Participant::where('order_id', '=', $order_id)->first();
+                return redirect()->action('ParticipantController@finish', [
+                    'order_id' => $order_id,
+                    'couple_token' => $participant->couple_token,
+                ]);
             }
         }else{
             // wrong order_id
@@ -50,8 +62,13 @@ class ParticipantController extends Controller
         }
     }
 
-    public function step1($order_id)
+    public function step1($order_id, $couple_token)
     {
+        $amount = Participant::where('couple_token', '=', $couple_token)->count();
+        if($amount >= 1){
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'already_register']);
+        }
+
         $category = [
             'teacher' => 'อาจารย์',
             'staff' => 'เจ้าหน้าที่',
@@ -62,12 +79,18 @@ class ParticipantController extends Controller
         return view('participant.create', [
             'url' => 'store_step_1',
             'category' => $category,
-            'order_id' => $order_id
+            'order_id' => $order_id,
+            'couple_token' => $couple_token
         ]);
     }
 
-    public function step2($order_id)
+    public function step2($order_id, $couple_token)
     {
+        $amount = Participant::where('couple_token', '=', $couple_token)->count();
+        if($amount >= 2){
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'already_register']);
+        }
+
         $category = [
             'teacher' => 'อาจารย์',
             'staff' => 'เจ้าหน้าที่',
@@ -78,17 +101,26 @@ class ParticipantController extends Controller
         return view('participant.create', [
             'url' => 'store_step_2',
             'category' => $category,
-            'order_id' => $order_id
+            'order_id' => $order_id,
+            'couple_token' => $couple_token
         ]);
     }
 
-    public function step3($order_id)
+    public function finish($order_id, $couple_token)
     {
         $participants = Participant::where('order_id', '=', $order_id)->get();
 
-        $participants = self::translateCategory($participants);
-
-        return view('participant.show', ['participants' => $participants]);
+        if(sizeof($participants) > 0){
+            $participants = self::translateCategory($participants);
+            $participants = self::changeOrderID($participants);
+            return view('participant.show', [
+                'participants' => $participants,
+                'couple_token' => $couple_token
+            ]);
+        }
+        else {
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
+        }
     }
 
     public function storeStep1(Request $request)
@@ -100,7 +132,10 @@ class ParticipantController extends Controller
 
         $participant = Participant::create($participant);
 
-        return redirect()->action('ParticipantController@step2', ['order_id' => $participant->order_id]);
+        return redirect()->action('ParticipantController@step2', [
+            'order_id' => $participant->order_id,
+            'couple_token' => $participant->couple_token
+        ]);
     }
 
     public function storeStep2(Request $request)
@@ -112,10 +147,13 @@ class ParticipantController extends Controller
 
         $participant = Participant::create($participant);
 
-        return redirect()->action('ParticipantController@step3', ['order_id' => $participant->order_id]);
+        return redirect()->action('ParticipantController@finish', [
+            'order_id' => $participant->order_id,
+            'couple_token' => $participant->couple_token
+        ]);
     }
 
-    public function edit($id)
+    public function edit($token)
     {
         $category = [
             'teacher' => 'อาจารย์',
@@ -124,12 +162,13 @@ class ParticipantController extends Controller
             'student' => 'นักศึกษา',
             'person' => 'บุคคลทั่วไป'
         ];
-        $participant = Participant::findOrFail($id);
+        $participant = Participant::where('token', '=', $token)->first();
 
         return view('participant.edit', [
             'url' => 'participant/'.$participant->id,
             'category' => $category,
             'order_id' => $participant->order_id,
+            'couple_token' => $participant->couple_token,
             'participant' => $participant
         ]);
     }
@@ -140,7 +179,10 @@ class ParticipantController extends Controller
         $participant = Participant::findOrFail($id);
         $participant->update($editParticipant);
 
-        return redirect()->action('ParticipantController@step3', ['order_id' => $participant->order_id]);
+        return redirect()->action('ParticipantController@finish', [
+            'order_id' => $participant->order_id,
+            'couple_token' => $participant->couple_token
+        ]);
     }
 
     #-------------------------------------------------------------------------------------------------------------------
@@ -177,16 +219,92 @@ class ParticipantController extends Controller
         }
     }
 
-    public function getQrCode($id)
+    public function getQrCode($token)
     {
-        $participant = Participant::findOrFail($id);
+        $participant = Participant::where('token', '=', $token)->first();
         $qr = QrCode::format('png')
-                ->size(400)
+                ->size(300)
                 ->merge('\public\image\sc-su-logo-eng.png', .15)
                 ->errorCorrection('H')
                 ->generate($participant->token);
 
         return response($qr, 200)->header('Content-Type', 'image/png');
+    }
+
+    public function getPdf($couple_token)
+    {
+        $participants = Participant::where('couple_token', '=', $couple_token)->get();
+        $participants = self::changeOrderID($participants);
+        $participants = self::translateCategory($participants);
+        /*
+        foreach ($participants as $participant){
+            QrCode::format('png')
+                ->size(300)
+                ->merge('\public\image\sc-su-logo-eng.png', .15)
+                ->errorCorrection('H')
+                ->generate($participant->token, '../public/qrcode/'.$participant->token.'.png');
+        }
+
+        $fpdf = new Fpdf();
+        $title = $participants[0]->order_id;
+
+        $name1 = $participants[0]->firstName. '  '.$participants[0]->lastName;
+        $name2 = $participants[1]->firstName. '  '.$participants[1]->lastName;
+
+        $fpdf->AddPage();
+        $fpdf->Image('../public/qrcode/'.$participants[0]->token.'.png', 8, 52, 100, 0, 'png');
+        $fpdf->Image('../public/qrcode/'.$participants[1]->token.'.png', 102, 52, 100, 0, 'png');
+
+        $fpdf->AddFont('angsa','','angsa.php');
+        $fpdf->SetFont('angsa', '', 70);
+
+        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$title), 1, 0, 'C');
+        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$title), 1, 1, 'C');
+        $fpdf->SetFont('angsa', '', 30);
+        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$name1), 1, 0, 'C');
+        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$name2), 1, 1, 'C');
+
+        $fpdf->Cell(95, 100, '', 1, 0, 'C');
+        $fpdf->Cell(95, 100, '', 1, 0, 'C');
+
+        //$fpdf->Ln(10);
+        $fpdf->Output();
+        exit;
+        */
+        $fpdf = new Fpdf();
+        $fpdf->AddPage();
+        $i = 0;
+        foreach ($participants as $participant){
+            QrCode::format('png')
+                ->size(300)
+                ->merge('\public\image\sc-su-logo-eng.png', .15)
+                ->errorCorrection('H')
+                ->generate($participant->token, '../public/qrcode/'.$participant->token.'.png');
+
+            $order_id = $participant->order_id;
+            $name = $participant->firstName.' '.$participant->lastName;
+            $category = $participant->category;
+
+            $fpdf->Image('../public/qrcode/'.$participant->token.'.png', 10, 10+(120 * $i), 100, 0, 'png');
+            $fpdf->Cell(100, 100, '', 1, 0, 'C');
+
+            $fpdf->AddFont('angsa','','angsa.php');
+            $fpdf->SetFont('angsa', '', 70);
+            $fpdf->Cell(90, 20, iconv( 'UTF-8','TIS-620',$order_id), 1, 1, 'C');
+            $fpdf->SetFont('angsa', '', 20);
+            $fpdf->Cell(100, 80, '', 0, 0, 'C');
+            $fpdf->Cell(90, 60, iconv( 'UTF-8','TIS-620',$name), 1, 1, 'C');
+
+            $fpdf->SetFont('angsa', '', 30);
+            $fpdf->Cell(100, 60, '', 0, 0, 'C');
+            $fpdf->Cell(90, 20, iconv( 'UTF-8','TIS-620',$category), 1, 0, 'C');
+
+            $fpdf->Ln(40);
+            $i++;
+        }
+
+        $fpdf->Output();
+        exit;
     }
 
     public function translateCategory($participants)
@@ -205,7 +323,7 @@ class ParticipantController extends Controller
                 $participant->category = 'นักศึกษา';
 
             elseif ($participant->category == 'person')
-                $participant->catagory = 'บุคคลทั่วไป';
+                $participant->category = 'บุคคลทั่วไป';
         }
         return $participants;
     }
@@ -238,7 +356,27 @@ class ParticipantController extends Controller
                 'content'   =>  'กรุณาตรวจสอบลำดับการบริจาคบูชาของท่าน หรือติดต่อผู้ดูแลระบบ'
             ];
         }
+        elseif ($error_msg == 'already_register'){
+            $error_message = [
+                'header'    =>  'ลำดับการลำดับการบริจาคบูชานี้ได้ลงทะเบียนแล้ว',
+                'content'   =>  'กรุณาตรวจสอบลำดับการบริจาคบูชาของท่าน หรือติดต่อผู้ดูแลระบบ'
+            ];
+        }
 
         return view('error', ['error_message' => $error_message]);
+    }
+
+    public function changeOrderID($participants)
+    {
+        foreach ($participants as $participant){
+            if($participant->order_id < 10)
+                $participant->order_id = '000'.$participant->order_id;
+            elseif ($participant->order_id < 100)
+                $participant->order_id = '00'.$participant->order_id;
+            elseif ($participant->order_id < 1000)
+                $participant->order_id = '0'.$participant->order_id;
+        }
+
+        return $participants;
     }
 }
