@@ -231,61 +231,34 @@ class ParticipantController extends Controller
         return response($qr, 200)->header('Content-Type', 'image/png');
     }
 
+    public function downloadQrCode($token)
+    {
+        $participant = Participant::where('token', '=', $token)->first();
+        $imgPath = self::createQRImage($participant);
+
+        $name = explode('@', $participant->email);
+        $filename = $name[0].'.png';
+        $header = ['Content-Type', 'image/png'];
+        return response()->download($imgPath, $filename, $header);
+    }
+
     public function getPdf($couple_token)
     {
         $participants = Participant::where('couple_token', '=', $couple_token)->get();
         $participants = self::changeOrderID($participants);
         $participants = self::translateCategory($participants);
-        /*
-        foreach ($participants as $participant){
-            QrCode::format('png')
-                ->size(300)
-                ->merge('\public\image\sc-su-logo-eng.png', .15)
-                ->errorCorrection('H')
-                ->generate($participant->token, '../public/qrcode/'.$participant->token.'.png');
-        }
 
-        $fpdf = new Fpdf();
-        $title = $participants[0]->order_id;
-
-        $name1 = $participants[0]->firstName. '  '.$participants[0]->lastName;
-        $name2 = $participants[1]->firstName. '  '.$participants[1]->lastName;
-
-        $fpdf->AddPage();
-        $fpdf->Image('../public/qrcode/'.$participants[0]->token.'.png', 8, 52, 100, 0, 'png');
-        $fpdf->Image('../public/qrcode/'.$participants[1]->token.'.png', 102, 52, 100, 0, 'png');
-
-        $fpdf->AddFont('angsa','','angsa.php');
-        $fpdf->SetFont('angsa', '', 70);
-
-        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$title), 1, 0, 'C');
-        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$title), 1, 1, 'C');
-        $fpdf->SetFont('angsa', '', 30);
-        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$name1), 1, 0, 'C');
-        $fpdf->Cell(95, 20, iconv( 'UTF-8','TIS-620',$name2), 1, 1, 'C');
-
-        $fpdf->Cell(95, 100, '', 1, 0, 'C');
-        $fpdf->Cell(95, 100, '', 1, 0, 'C');
-
-        //$fpdf->Ln(10);
-        $fpdf->Output();
-        exit;
-        */
         $fpdf = new Fpdf();
         $fpdf->AddPage();
         $i = 0;
         foreach ($participants as $participant){
-            QrCode::format('png')
-                ->size(300)
-                ->merge('\public\image\sc-su-logo-eng.png', .15)
-                ->errorCorrection('H')
-                ->generate($participant->token, '../public/qrcode/'.$participant->token.'.png');
+            $imgPath = self::createQRImage($participant);
 
             $order_id = $participant->order_id;
             $name = $participant->firstName.' '.$participant->lastName;
             $category = $participant->category;
 
-            $fpdf->Image('../public/qrcode/'.$participant->token.'.png', 10, 10+(120 * $i), 100, 0, 'png');
+            $fpdf->Image($imgPath, 10, 10+(120 * $i), 100, 0, 'png');
             $fpdf->Cell(100, 100, '', 1, 0, 'C');
 
             $fpdf->AddFont('angsa','','angsa.php');
@@ -305,6 +278,18 @@ class ParticipantController extends Controller
 
         $fpdf->Output();
         exit;
+    }
+
+    public function createQRImage($participant)
+    {
+        QrCode::format('png')
+            ->size(500)
+            ->merge('\public\image\sc-su-logo-eng.png', .15)
+            ->errorCorrection('H')
+            ->generate($participant->token, '../public/qrcode/'.$participant->token.'.png');
+
+        $imgPath = '../public/qrcode/'.$participant->token.'.png';
+        return $imgPath;
     }
 
     public function translateCategory($participants)

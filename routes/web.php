@@ -33,6 +33,7 @@ Route::post('participant/gain', 'ParticipantController@gainItem');
 
 Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
 Route::get('participant/qrcode/{token}', 'ParticipantController@getQrCode');
+Route::get('participant/qrcode/download/{token}', 'ParticipantController@downloadQrCode');
 Route::get('participant/pdf/{couple_token}','ParticipantController@getPdf');
 
 Route::get('scan', function (){

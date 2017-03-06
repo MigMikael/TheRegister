@@ -4,12 +4,11 @@
     <div class="row">
         <div class="jumbotron card-header col-md-10 col-md-offset-1 col-xs-offset-0">
             <h1><b>Admin Panel</b></h1>
-            <h2>รายชื่อผู้เข้าร่วมงานทั้งหมด</h2>
         </div>
     </div>
     <br>
     <div class="row col-md-10 col-md-offset-1 col-xs-offset-0">
-        <h2>Search</h2>
+        <h2>Search by</h2>
         {!! Form::open() !!}
 
         {!! Form::close() !!}

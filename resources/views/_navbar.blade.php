@@ -6,12 +6,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('/') }}">Register</a>
+            <a class="navbar-brand" href="{{ url('/') }}">หน้าหลัก</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="">link</a></li>
-                <li><a href="">link</a></li>
+                {{--<li><a href="">link</a></li>
+                <li><a href="">link</a></li>--}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {{--<li><a href="{{ url('/login') }}">Login</a></li>

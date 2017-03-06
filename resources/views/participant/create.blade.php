@@ -1,8 +1,10 @@
 @extends('template')
 
 @section('content')
+    @include('participant._progress')
+    <br>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0" style="text-align: center">
+        <div class="col-md-8 col-md-offset-2 col-xs-offset-0" style="text-align: center">
             <div class="panel">
                 <div class="panel-heading">
                     @if($url == 'store_step_1')

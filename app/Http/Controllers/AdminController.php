@@ -18,6 +18,7 @@ class AdminController extends Controller
         $participants = Participant::where('order_id', '=', $order_id)->get();
 
         $participants = self::translateCategory($participants);
+        $participants = self::changeOrderID($participants);
 
         return view('admin.show', ['participants' => $participants]);
     }
@@ -38,8 +39,22 @@ class AdminController extends Controller
                 $participant->category = 'นักศึกษา';
 
             elseif ($participant->category == 'person')
-                $participant->catagory = 'บุคคลทั่วไป';
+                $participant->category = 'บุคคลทั่วไป';
         }
+        return $participants;
+    }
+
+    public function changeOrderID($participants)
+    {
+        foreach ($participants as $participant){
+            if($participant->order_id < 10)
+                $participant->order_id = '000'.$participant->order_id;
+            elseif ($participant->order_id < 100)
+                $participant->order_id = '00'.$participant->order_id;
+            elseif ($participant->order_id < 1000)
+                $participant->order_id = '0'.$participant->order_id;
+        }
+
         return $participants;
     }
 }
