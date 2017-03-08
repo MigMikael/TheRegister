@@ -41,6 +41,14 @@
                 <h4>Email : {{ $participant->email }}</h4>
                 <h4>Address : {{ $participant->address }}</h4>
             </div>
+            @else
+                <div class="col-md-12">
+                    <br>
+                    <br>
+                    <h4 style="color: #ff0000">
+                        <b>***กรุณาบันทึกหรือพิมพ์รหัสคิวอาร์ของท่าน เพื่อนำมาใช้ลงทะเบียนในวันงาน</b>
+                    </h4>
+                </div>
             @endif
         </div>
     </div>

@@ -3,11 +3,11 @@
 @section('content')
     <div class="col-md-10 col-md-offset-1 col-xs-offset-0">
         <div class="row">
-            <div class="jumbotron col-md-12 card-header">
+            <div class="jumbotron col-md-12 card-header" style="background: #00897B;color: #FFFFFF;">
                 <h1><b>สำหรับผู้ดูแลระบบ</b></h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row ">
             <div class="col-md-4">
                 <div class="panel">
                     <div class="panel-heading">
@@ -33,11 +33,11 @@
             <div class="col-md-4">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h1>รายชื่อผู้เข้าร่วมงาน</h1>
+                        <h1>ผู้เข้าร่วมงาน</h1>
                     </div>
                     <div class="panel-footer">
-                        <a href="{{ url('admin/participant/list') }}" class="btn btn-success btn-lg btn-block">ดู</a>
-                        <a href="" class="btn btn-warning btn-lg btn-block">ทำไรดีอะ</a>
+                        <a href="{{ url('admin/participant/list') }}" class="btn btn-success btn-lg btn-block">รายชื่อ</a>
+                        <a href="" class="btn btn-warning btn-lg btn-block">ค้นหา</a>
                     </div>
                 </div>
             </div>

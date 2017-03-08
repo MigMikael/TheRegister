@@ -8,15 +8,6 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-md-10 col-md-offset-1 col-xs-offset-0">
-            <h2>Search by</h2>
-            {!! Form::open() !!}
-            {{--Todo search function--}}
-            {!! Form::close() !!}
-        </div>
-    </div>
-    <br>
-    <div class="row">
         <div class=" col-md-10 col-md-offset-1 col-xs-offset-0 table-responsive">
             <table class="table table-hover table-bordered">
                 <thead style="text-align: center">

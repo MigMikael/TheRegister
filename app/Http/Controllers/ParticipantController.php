@@ -197,12 +197,15 @@ class ParticipantController extends Controller
         $order_id = (int)($order_id_1.$order_id_2.$order_id_3.$order_id_4);
 
         $participants = Participant::where('order_id', '=', $order_id)->get();
-        if($participants != null){
+
+        if(sizeof($participants) != 0){
             foreach ($participants as $participant) {
                 $participant->is_attend = 1;
                 $participant->attend_time = Carbon::now();
                 $participant->save();
             }
+
+            return view('attend');
         }else {
             return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
         }
@@ -214,12 +217,12 @@ class ParticipantController extends Controller
         $token = $request->get('token');
 
         $participant = Participant::where('token', '=', $token)->first();
-        if ($participant != null){
+        if (sizeof($participant) != 0){
             $participant->is_attend = 1;
             $participant->attend_time = Carbon::now();
             $participant->save();
 
-            return $participant->firstName.' เข้าร่วมงาน!!!';
+            return view('attend');
         }else {
             return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
         }
@@ -268,9 +271,8 @@ class ParticipantController extends Controller
                 $participant->save();
             }
             return redirect()->action('ParticipantController@orderList', ['order_id' => $participant->order_id]);
-
         }else {
-
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
         }
     }
 
@@ -399,13 +401,13 @@ class ParticipantController extends Controller
         $error_message = [];
         if($error_msg == 'user_not_found'){
             $error_message = [
-                'header'    =>  'ไม่พบลำดับการบริจาคบูชานี้ในระบบ',
+                'header'    =>  'ไม่พบลำดับที่นี้ในระบบ',
                 'content'   =>  'กรุณาตรวจสอบลำดับการบริจาคบูชาของท่าน หรือติดต่อผู้ดูแลระบบ'
             ];
         }
         elseif ($error_msg == 'already_register'){
             $error_message = [
-                'header'    =>  'ลำดับการลำดับการบริจาคบูชานี้ได้ลงทะเบียนแล้ว',
+                'header'    =>  'ลำดับการลำดับที่นี้ได้ลงทะเบียนแล้ว',
                 'content'   =>  'กรุณาตรวจสอบลำดับการบริจาคบูชาของท่าน หรือติดต่อผู้ดูแลระบบ'
             ];
         }

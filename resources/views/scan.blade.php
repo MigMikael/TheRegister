@@ -23,7 +23,7 @@
     <div class="container-fluid" style="margin-top: 70px">
         <div class="row col-md-10 col-md-offset-1 col-xs-offset-0">
             <div class="panel">
-                <div class="panel-heading">
+                <div class="jumbotron panel-heading">
                     @if(Request::path() == 'admin/register/scan')
                         <h1>ลงทะเบียนเข้าร่วมงานด้วยรหัสคิวอาร์</h1>
                     @elseif(Request::path() == 'admin/gain/scan')
