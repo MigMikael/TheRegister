@@ -28,32 +28,49 @@ Route::post('store_step_2', 'ParticipantController@storeStep2');
 Route::get('participant/{token}/edit', 'ParticipantController@edit');
 Route::patch('participant/{id}', 'ParticipantController@update');
 
-Route::post('participant/register', 'ParticipantController@registerWithQR');
-Route::post('participant/gain', 'ParticipantController@gainItem');
-
-Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
 Route::get('participant/qrcode/{token}', 'ParticipantController@getQrCode');
 Route::get('participant/qrcode/download/{token}', 'ParticipantController@downloadQrCode');
 Route::get('participant/pdf/{couple_token}','ParticipantController@getPdf');
-
-Route::get('scan', function (){
-    return view('scan');
-});
-
 Route::get('error/{error_msg}', 'ParticipantController@handleError');
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-Route::get('admin', 'AdminController@index');
-Route::get('admin/show/{order_id}', 'AdminController@show');
+Route::group(['prefix' => 'admin'], function () {
 
-Route::get('pdf', function (){
-    $fpdf = new Anouar\Fpdf\Fpdf();
-    $fpdf->AddPage();
-    $fpdf->SetFont('Arial', 'B', 16);
-    $fpdf->Cell(40, 10, 'Hello World');
-    $fpdf->Output();
-    exit;
+    Route::get('/', function (){
+        return view('admin.home');
+    });
+
+    Route::get('register/scan', function (){
+        return view('scan');
+    });
+
+    Route::get('register/entry', function (){
+        return view('entry');
+    });
+
+    Route::get('gain/scan', function (){
+        return view('scan');
+    });
+
+    Route::get('gain/entry', function (){
+        return view('entry');
+    });
+
+    Route::post('participant/register/qrcode', 'ParticipantController@registerWithQR');
+    Route::post('participant/register/order_id', 'ParticipantController@registerWithOrderID');
+
+    Route::post('participant/gain/qrcode', 'ParticipantController@gainWithQR');
+    Route::post('participant/gain/order_id', 'ParticipantController@gainWithOrderID');
+
+    Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
+
+    Route::get('participant/list', 'AdminController@index');
+    Route::get('participant/show/{order_id}', 'AdminController@show');
+
 });
+#-----------------------------------------------------------------------------------------------------------------------
+
+
 
 

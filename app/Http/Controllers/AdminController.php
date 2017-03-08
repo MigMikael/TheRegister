@@ -10,6 +10,7 @@ class AdminController extends Controller
     public function index()
     {
         $participants = Participant::orderBy('order_id', 'desc')->paginate(15);
+        $participants = $this->translateCategory($participants);
         return view('admin.index', ['participants' => $participants]);
     }
 

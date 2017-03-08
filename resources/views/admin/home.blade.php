@@ -1,0 +1,46 @@
+@extends('template')
+
+@section('content')
+    <div class="col-md-10 col-md-offset-1 col-xs-offset-0">
+        <div class="row">
+            <div class="jumbotron col-md-12 card-header">
+                <h1><b>สำหรับผู้ดูแลระบบ</b></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1>ลงทะเบียนเข้างาน</h1>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="{{ url('admin/register/scan') }}" class="btn btn-success btn-lg btn-block">รหัสคิวอาร์</a>
+                        <a href="{{ url('admin/register/entry') }}" class="btn btn-warning btn-lg btn-block">ลำดับที่</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1>รับของสั่งจอง</h1>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="{{ url('admin/gain/scan') }}" class="btn btn-success btn-lg btn-block">รหัสคิวอาร์</a>
+                        <a href="{{ url('admin/gain/entry') }}" class="btn btn-warning btn-lg btn-block">ลำดับที่</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1>รายชื่อผู้เข้าร่วมงาน</h1>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="{{ url('admin/participant/list') }}" class="btn btn-success btn-lg btn-block">ดู</a>
+                        <a href="" class="btn btn-warning btn-lg btn-block">ทำไรดีอะ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop

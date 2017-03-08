@@ -5,7 +5,7 @@
 </head>
 <body>
     @include('_navbar')
-    <div class="container-fluid" style="margin-top: 80px">
+    <div class="container-fluid" style="margin-top: 70px">
         @yield('content')
     </div>
 </body>

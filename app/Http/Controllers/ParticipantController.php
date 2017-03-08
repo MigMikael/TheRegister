@@ -187,6 +187,28 @@ class ParticipantController extends Controller
 
     #-------------------------------------------------------------------------------------------------------------------
 
+    public function registerWithOrderID(Request $request)
+    {
+        $order_id_1 = $request->get('order_id_1');
+        $order_id_2 = $request->get('order_id_2');
+        $order_id_3 = $request->get('order_id_3');
+        $order_id_4 = $request->get('order_id_4');
+
+        $order_id = (int)($order_id_1.$order_id_2.$order_id_3.$order_id_4);
+
+        $participants = Participant::where('order_id', '=', $order_id)->get();
+        if($participants != null){
+            foreach ($participants as $participant) {
+                $participant->is_attend = 1;
+                $participant->attend_time = Carbon::now();
+                $participant->save();
+            }
+        }else {
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
+        }
+
+    }
+
     public function registerWithQR(Request $request)
     {
         $token = $request->get('token');
@@ -199,23 +221,56 @@ class ParticipantController extends Controller
 
             return $participant->firstName.' เข้าร่วมงาน!!!';
         }else {
-            echo 'please register';
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
         }
     }
 
-    public function gainItem(Request $request)
+    public function gainWithOrderID(Request $request)
+    {
+        $order_id_1 = $request->get('order_id_1');
+        $order_id_2 = $request->get('order_id_2');
+        $order_id_3 = $request->get('order_id_3');
+        $order_id_4 = $request->get('order_id_4');
+
+        $order_id = (int)($order_id_1.$order_id_2.$order_id_3.$order_id_4);
+
+        $participants = Participant::where('order_id', '=', $order_id)->get();
+        if($participants != null){
+            foreach ($participants as $participant) {
+                if($participant->is_gain == 1){
+                    return redirect()->action('ParticipantController@handleError', ['error_msg' => 'already_gain_item']);
+                }
+                $participant->is_gain = 1;
+                $participant->gain_time = Carbon::now();
+                $participant->save();
+            }
+            return redirect()->action('ParticipantController@orderList', ['order_id' => $order_id]);
+        }else {
+            return redirect()->action('ParticipantController@handleError', ['error_msg' => 'user_not_found']);
+        }
+    }
+    
+    public function gainWithQR(Request $request)
     {
         $token = $request->get('token');
-
         $participant = Participant::where('token', '=', $token)->first();
-        if ($participant != null){
-            $participant->is_gain = 1;
-            $participant->gain_time = Carbon::now();
-            $participant->save();
 
+        if ($participant != null){
+            $couple_token = $participant->couple_token;
+            $participants = Participant::where('couple_token', '=', $couple_token)->get();
+
+            foreach ($participants as $participant) {
+                if($participant->is_gain == 1){
+                    return redirect()->action('ParticipantController@handleError', ['error_msg' => 'already_gain_item']);
+                }
+                $participant->is_gain = 1;
+                $participant->gain_time = Carbon::now();
+                $participant->save();
+            }
             return redirect()->action('ParticipantController@orderList', ['order_id' => $participant->order_id]);
+
         }else {
-            echo 'please register';
+
         }
     }
 
@@ -264,7 +319,7 @@ class ParticipantController extends Controller
             $fpdf->AddFont('angsa','','angsa.php');
             $fpdf->SetFont('angsa', '', 70);
             $fpdf->Cell(90, 20, iconv( 'UTF-8','TIS-620',$order_id), 1, 1, 'C');
-            $fpdf->SetFont('angsa', '', 20);
+            $fpdf->SetFont('angsa', '', 24);
             $fpdf->Cell(100, 80, '', 0, 0, 'C');
             $fpdf->Cell(90, 60, iconv( 'UTF-8','TIS-620',$name), 1, 1, 'C');
 
@@ -325,7 +380,14 @@ class ParticipantController extends Controller
             $orderData[$itemOrder->item_id] = $itemOrder;
         }
 
-        $orderData['total_price'] = $price;
+        if($order_id < 10)
+            $order_id = '000'.$order_id;
+        elseif ($order_id < 100)
+            $order_id = '00'.$order_id;
+        elseif ($order_id < 1000)
+            $order_id = '0'.$order_id;
+
+        $orderData['total_price'] = number_format($price);
         $orderData['order_id'] = $order_id;
         //return $orderData;
 
@@ -344,6 +406,12 @@ class ParticipantController extends Controller
         elseif ($error_msg == 'already_register'){
             $error_message = [
                 'header'    =>  'ลำดับการลำดับการบริจาคบูชานี้ได้ลงทะเบียนแล้ว',
+                'content'   =>  'กรุณาตรวจสอบลำดับการบริจาคบูชาของท่าน หรือติดต่อผู้ดูแลระบบ'
+            ];
+        }
+        elseif ($error_msg == 'already_gain_item'){
+            $error_message = [
+                'header'    =>  'ท่านได้รับของเรียบร้อยแล้ว',
                 'content'   =>  'กรุณาตรวจสอบลำดับการบริจาคบูชาของท่าน หรือติดต่อผู้ดูแลระบบ'
             ];
         }

@@ -8,11 +8,13 @@
             <div class="panel">
                 <div class="panel-heading">
                     @if($url == 'store_step_1')
-                        <h1>กรอกข้อมูลของบุคคลที่หนึ่ง</h1>
+                        <h1>ขั้นตอนที่ 1</h1>
+                        <h4>กรอกข้อมูลของบุคคลที่หนึ่ง</h4>
                     @else
-                        <h1>กรอกข้อมูลของบุคคลที่สอง</h1>
+                        <h1>ขั้นตอนที่ 2</h1>
+                        <h4>กรอกข้อมูลของบุคคลที่สอง</h4>
                         <a href="{{ url('finish/'.$order_id.'/'.$couple_token) }}" class="btn btn-default btn-lg">
-                            Skip
+                            ข้าม
                             <span class="glyphicon glyphicon-share"></span>
                         </a>
                     @endif
@@ -22,7 +24,7 @@
                     @include('participant._form')
                 </div>
                 <div class="panel-footer">
-                    {!! Form::button('Next <span class="glyphicon glyphicon-chevron-right"></span>',['class'=>'btn btn-success btn-lg', 'type'=>'submit']) !!}
+                    {!! Form::button('ต่อไป <span class="glyphicon glyphicon-chevron-right"></span>',['class'=>'btn btn-success btn-lg', 'type'=>'submit']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>

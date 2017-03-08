@@ -1,6 +1,6 @@
 <div class="panel">
     <div class="panel-heading">
-        <h1><b>ลำดับการบริจาคบูชาที่ {{ $participant->order_id }}</b></h1>
+        <h1>ลำดับที่ <b>{{ $participant->order_id }}</b></h1>
     </div>
     <div class="panel-body">
         <div class="col-md-4 col-xs-12">
@@ -14,23 +14,25 @@
             </div>
             @if(Request::is('admin/*'))
             <div class="col-md-4">
-                <h3>Attend :
+                <h3>สถานะร่วมงาน :
                     @if($participant->is_attend == 1)
                         <span style="color: green" class="glyphicon glyphicon-ok"></span>
                     @else
                         <span style="color: red" class="glyphicon glyphicon-remove"></span>
                     @endif
                 </h3>
-                <h4>Attend Time : {{ $participant->attend_time }}</h4>
+                <h4>เวลาเข้าร่วมงาน : </h4>
+                <h4>{{ $participant->attend_time }}</h4>
                 <br>
-                <h3>Gain :
+                <h3>สถานะรับของ :
                     @if($participant->is_gain == 1)
                         <span style="color: green" class="glyphicon glyphicon-ok"></span>
                     @else
                         <span style="color: red" class="glyphicon glyphicon-remove"></span>
                     @endif
                 </h3>
-                <h4>Gain Time : {{ $participant->gain_time }}</h4>
+                <h4>เวลารับของ : </h4>
+                <h4>{{ $participant->gain_time }}</h4>
             </div>
             <hr>
             <br>
@@ -44,15 +46,15 @@
     </div>
     <div class="panel-footer">
         <a href="{{ url('participant/qrcode/download/'.$participant->token) }}" class="btn btn-success btn-lg">
-            Save
+            บันทึก
             <span class="glyphicon glyphicon-floppy-disk"></span>
         </a>
         <a href="{{ url('participant/pdf/'.$participant->couple_token) }}" class="btn btn-warning btn-lg">
-            Print
+            พิมพ์
             <span class="glyphicon glyphicon-print"></span>
         </a>
         <a href="{{ url('participant/'.$participant->token.'/edit') }}" class="btn btn-default btn-lg">
-            Edit
+            แก้ไข
             <span class="glyphicon glyphicon-edit"></span>
         </a>
     </div>
