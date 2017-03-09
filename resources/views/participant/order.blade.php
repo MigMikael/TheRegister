@@ -115,7 +115,7 @@
         </div>
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1">
-                <a href="{{ url('gain/scan') }}" id="btn-done" class="btn btn-success btn-lg">เสร็จสิ้น</a>
+                <a href="{{ url()->previous() }}" id="btn-done" class="btn btn-success btn-lg">เสร็จสิ้น</a>
             </div>
         </div>
     </div>
