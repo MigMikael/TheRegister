@@ -7,8 +7,8 @@
                 <h1><b>สำหรับผู้ดูแลระบบ</b></h1>
             </div>
         </div>
-        <div class="row ">
-            <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-4" style="padding: 0">
                 <div class="panel">
                     <div class="panel-heading">
                         <h1>ลงทะเบียนเข้างาน</h1>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="padding: 0">
                 <div class="panel">
                     <div class="panel-heading">
                         <h1>ผู้เข้าร่วมงาน</h1>

@@ -7,7 +7,7 @@
             <h2>พิธีมหาเทวาภิเษก</h2>
             <br>
             <br>
-            <h3>กรุณากรอกลำดับการสั่งจองของท่าน</h3>
+            <h3>กรุณากรอกลำดับที่ของท่าน</h3>
             {!! Form::open(['url' => 'welcome/check_order_id', 'class' => 'form-horizontal']) !!}
             <div class="row">
                 <div class="col-xs-2 col-xs-offset-2 col-md-1 col-md-offset-4">
