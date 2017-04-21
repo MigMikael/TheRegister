@@ -17,8 +17,7 @@ class CreateParticipantsTable extends Migration
             $table->increments('id');
             $table->integer('order_id')->unsigned();
 
-            $table->string('firstName');
-            $table->string('lastName');
+            $table->string('name');
             $table->text('address');
             $table->string('phoneNumber');
             $table->string('email');
@@ -30,7 +29,8 @@ class CreateParticipantsTable extends Migration
                 'staff',    //เจ้าหน้าที่
                 'alumni',   //ศิษย์เก่า
                 'student',  //นักศึกษา
-                'person'    //บุคคลทั่วไป
+                'person',    //บุคคลทั่วไป
+                'others'
             ]);
 
             $table->boolean('is_attend')->default(0);

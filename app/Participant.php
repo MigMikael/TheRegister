@@ -12,8 +12,7 @@ class Participant extends Model
 
     protected $fillable = [
         'order_id',
-        'firstName',
-        'lastName',
+        'name',
         'address',
         'phoneNumber',
         'email',

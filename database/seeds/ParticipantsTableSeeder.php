@@ -16,8 +16,7 @@ class ParticipantsTableSeeder extends Seeder
         $coupleToken = $generator->generate(10);
         DB::table('participants')->insert([
             'order_id' => 0001,
-            'firstName' => 'สาริน',
-            'lastName' => 'รณเกียรติ',
+            'name' => 'สาริน รณเกียรติ',
             'address' => 'แถวแถวลาดพร้าว',
             'phoneNumber' => '0877777788',
             'email' => 'sarin@example.com',
@@ -28,8 +27,7 @@ class ParticipantsTableSeeder extends Seeder
 
         DB::table('participants')->insert([
             'order_id' => 0001,
-            'firstName' => 'ภากร',
-            'lastName' => 'ธนศรีวนิชชัย',
+            'name' => 'ภากร ธนศรีวนิชชัย',
             'address' => 'แถวแถวลาดพร้าว',
             'phoneNumber' => '0888888877',
             'email' => 'pakorn@example.com',
@@ -42,8 +40,7 @@ class ParticipantsTableSeeder extends Seeder
         $coupleToken = $generator->generate(10);
         DB::table('participants')->insert([
             'order_id' => 0002,
-            'firstName' => 'สพล',
-            'lastName' => 'อัศวมั่นคง',
+            'name' => 'สพล อัศวมั่นคง',
             'address' => 'กะพอร์ช',
             'phoneNumber' => '0070007777',
             'email' => 'grsp@example.com',
@@ -54,8 +51,7 @@ class ParticipantsTableSeeder extends Seeder
 
         DB::table('participants')->insert([
             'order_id' => 0002,
-            'firstName' => 'ศิฑา',
-            'lastName' => 'กาญจนอลงกรณ์',
+            'name' => 'ศิฑา กาญจนอลงกรณ์',
             'address' => 'กะพี่เกรทฮะ',
             'phoneNumber' => '0070007777',
             'email' => 'pporsche@example.com',
@@ -67,8 +63,7 @@ class ParticipantsTableSeeder extends Seeder
         $coupleToken = $generator->generate(10);
         DB::table('participants')->insert([
             'order_id' => 0003,
-            'firstName' => 'ภาคภูมิ',
-            'lastName' => 'ตีไชย์รัม',
+            'name' => 'ภาคภูมิ ตีไชย์รัม',
             'address' => 'บนโลกฮะ',
             'phoneNumber' => '0070007777',
             'email' => 'pakphoom@example.com',

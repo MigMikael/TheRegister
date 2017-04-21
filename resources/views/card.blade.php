@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-8">
             <div class="col-md-8">
-                <h2><b>{{ $participant->firstName }}  {{ $participant->lastName }}</b></h2>
+                <h2><b>{{ $participant->name }}</b></h2>
                 <br>
                 <h2><b>{{ $participant->category }}</b></h2>
             </div>

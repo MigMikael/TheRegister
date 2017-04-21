@@ -14,7 +14,6 @@
                 <tr>
                     <th>ลำดับที่</th>
                     <th>ชื่อ</th>
-                    <th>นามสกุล</th>
                     <th>เบอร์โทรศัพท์</th>
                     <th>ประเภท</th>
                     <th>สถานะเข้างาน</th>
@@ -27,8 +26,7 @@
                 @foreach($participants as $participant)
                     <tr>
                         <td>{!! $participant->order_id !!}</td>
-                        <td>{!! $participant->firstName !!}</td>
-                        <td>{!! $participant->lastName !!}</td>
+                        <td>{!! $participant->name !!}</td>
                         <td>{!! $participant->phoneNumber !!}</td>
                         <td>{!! $participant->category !!}</td>
                         <td style="text-align: center">

@@ -7,7 +7,7 @@
                 <div class="panel-heading">
                     <h2>แก้ไขข้อมูล</h2>
                 </div>
-                {!! Form::model($participant, ['url' => 'participant/'.$participant->id,
+                {!! Form::model($participant, ['url' => 'participant/'.$participant->order_id,
                     'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
                 <div class="panel-body">
                     @include('participant._form')

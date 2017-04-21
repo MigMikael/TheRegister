@@ -1,16 +1,9 @@
 {!! Form::hidden('order_id', $order_id, ['class' => 'form-control']) !!}
 {!! Form::hidden('couple_token', $couple_token, ['class' => 'form-control']) !!}
 <div class="form-group">
-    {!! Form::label('firstName', 'ชื่อ ', ['class' => 'control-label col-sm-2']) !!}
+    {!! Form::label('name', 'ชื่อ ', ['class' => 'control-label col-sm-2']) !!}
     <div class="col-sm-10">
-        {!! Form::text('firstName', null, ['class' => 'form-control']) !!}<br>
-    </div>
-</div>
-
-<div class="form-group">
-    {!! Form::label('lastName', 'นามสกุล ', ['class' => 'control-label col-sm-2']) !!}
-    <div class="col-sm-10">
-        {!! Form::text('lastName', null, ['class' => 'form-control']) !!}<br>
+        {!! Form::text('name', null, ['class' => 'form-control']) !!}<br>
     </div>
 </div>
 

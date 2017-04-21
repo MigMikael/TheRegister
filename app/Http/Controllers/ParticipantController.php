@@ -173,10 +173,10 @@ class ParticipantController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $order_id)
     {
         $editParticipant = $request->all();
-        $participant = Participant::findOrFail($id);
+        $participant = Participant::where('order_id','=',$order_id)->first();
         $participant->update($editParticipant);
 
         return redirect()->action('ParticipantController@finish', [
@@ -312,7 +312,7 @@ class ParticipantController extends Controller
             $imgPath = self::createQRImage($participant);
 
             $order_id = $participant->order_id;
-            $name = $participant->firstName.' '.$participant->lastName;
+            $name = $participant->name;
             $category = $participant->category;
 
             $fpdf->Image($imgPath, 10, 10+(120 * $i), 100, 0, 'png');
