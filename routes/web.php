@@ -66,6 +66,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
 
     Route::get('participant/list', 'AdminController@index');
+    Route::get('participant/search', 'AdminController@search');
+    Route::post('participant/search', 'AdminController@query');
     Route::get('participant/show/{order_id}', 'AdminController@show');
 
 });

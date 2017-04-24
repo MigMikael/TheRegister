@@ -58,4 +58,42 @@ class AdminController extends Controller
 
         return $participants;
     }
+
+    public function search()
+    {
+        $search_option = [
+            'order_id' => 'ลำดับสั่งซื้อ',  'full_name' => 'ชื่อ-นามสกุล'
+        ];
+        return view('admin.search', ['search_option' => $search_option]);
+    }
+
+    public function query(Request $request)
+    {
+        $search_option = [
+            'order_id' => 'ลำดับสั่งซื้อ',  'full_name' => 'ชื่อ-นามสกุล'
+        ];
+
+        $search_by = $request->get('search_by');
+        $query = $request->get('query');
+        if($search_by == 'order_id'){
+            $participants = Participant::where('order_id','=', $query)->get();
+            $count = Participant::where('order_id', $query)->count();
+        }else{
+            $participants = Participant::where('name','=', $query)->get();
+            $count = Participant::where('name', $query)->count();
+        }
+
+
+        if($count >= 1){
+            return view('admin.search', [
+                'search_option' => $search_option,
+                'participants' => $participants
+            ]);
+        }
+        else{
+            return view('admin.search', [
+                'search_option' => $search_option,
+            ]);
+        }
+    }
 }

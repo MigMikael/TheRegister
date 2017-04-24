@@ -42,7 +42,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url('admin/participant/list') }}">ดูรายชื่อ</a></li>
-                        <li><a href="#">ค้นหา</a></li>
+                        <li><a href="{{ url('admin/participant/search') }}">ค้นหา</a></li>
                     </ul>
                 </li>
             </ul>
