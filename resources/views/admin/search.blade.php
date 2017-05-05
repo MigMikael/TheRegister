@@ -114,7 +114,7 @@
                     </div>
                     <div class="row" style="padding-bottom: 10px">
                         <h3>รวมจำนวนเงิน(บาท)</h3>
-                        <div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1" style="background: #FFFFFF;">
+                        <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1" style="background: #FFFFFF;">
                             <h1 style="font-size: 100px;display: inline">
                                 <b> {{ $orderData['total_price'] }} </b>
                             </h1>
