@@ -391,11 +391,6 @@ class ParticipantController extends Controller
         $orderData['order_id'] = $order_id;
         //return $orderData;
 
-        $participant = Participant::where('order_id', '=', $order_id)->first();
-        $participant->is_gain = 1;
-        $participant->gain_time = Carbon::now();
-        $participant->save();
-
         return view('participant.order', ['orderData' => $orderData]);
     }
 
@@ -468,5 +463,60 @@ class ParticipantController extends Controller
         //return $orderData;
 
         return view('participant.order', ['orderData' => $orderData]);
+    }
+
+    public function summary()
+    {
+        $participants = Participant::where('is_gain', '=', 1)->get();
+        $orderData = [];
+        $orderData[1] = 0;
+        $orderData[2] = 0;
+        $orderData[3] = 0;
+        $orderData[4] = 0;
+        $orderData[5] = 0;
+        $orderData[6] = 0;
+        $orderData[7] = 0;
+        foreach ($participants as $participant){
+            $itemOrders = ItemOrder::where('order_id', '=', $participant->order_id)->get();
+            /*$price = 0;*/
+            foreach ($itemOrders as $itemOrder){
+                /*$itemOrder->item;
+                $price += $itemOrder->item->price * $itemOrder->amount;
+                $orderData[$itemOrder->item_id] = $itemOrder;*/
+
+                if($itemOrder->item->id == 1){
+                    $orderData[1] += $itemOrder->amount;
+                }
+                elseif($itemOrder->item->id == 2){
+                    $orderData[2] += $itemOrder->amount;
+                }
+                elseif($itemOrder->item->id == 3){
+                    $orderData[3] += $itemOrder->amount;
+                }
+                elseif($itemOrder->item->id == 4){
+                    $orderData[4] += $itemOrder->amount;
+                }
+                elseif($itemOrder->item->id == 5){
+                    $orderData[5] += $itemOrder->amount;
+                }
+                elseif($itemOrder->item->id == 6){
+                    $orderData[6] += $itemOrder->amount;
+                }
+                elseif($itemOrder->item->id == 7){
+                    $orderData[7] += $itemOrder->amount;
+                }
+            }
+        }
+        return view('summary', ['orderData' => $orderData]);
+    }
+
+    public function record($order_id)
+    {
+        $participant = Participant::where('order_id', '=', $order_id)->first();
+        $participant->is_gain = 1;
+        $participant->gain_time = Carbon::now();
+        $participant->save();
+
+        return view('complete');
     }
 }

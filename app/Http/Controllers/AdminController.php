@@ -73,7 +73,7 @@ class AdminController extends Controller
         $search_option = [
             'order_id' => 'ลำดับสั่งซื้อ',  'full_name' => 'ชื่อ-นามสกุล'
         ];
-
+        $orderData = [];
         $search_by = $request->get('search_by');
         $query = $request->get('query');
         if($search_by == 'order_id'){
@@ -81,7 +81,6 @@ class AdminController extends Controller
             $count = Participant::where('order_id', $query)->count();
 
             $order_id = $query;
-            $orderData = [];
 
             $itemOrders = ItemOrder::where('order_id', '=', $order_id)->get();
             $price = 0;
@@ -102,8 +101,28 @@ class AdminController extends Controller
             $orderData['order_id'] = $order_id;
 
         }else{
-            $participants = Participant::where('name','=', $query)->get();
+            $participants = Participant::where('name','=', $query)->first();
             $count = Participant::where('name', $query)->count();
+            $orderData = 0;
+            /*$order_id = $participants->order_id;
+
+            $itemOrders = ItemOrder::where('order_id', '=', $order_id)->get();
+            $price = 0;
+            foreach ($itemOrders as $itemOrder){
+                $itemOrder->item;
+                $price += $itemOrder->item->price * $itemOrder->amount;
+                $orderData[$itemOrder->item_id] = $itemOrder;
+            }
+
+            if($order_id < 10)
+                $order_id = '000'.$order_id;
+            elseif ($order_id < 100)
+                $order_id = '00'.$order_id;
+            elseif ($order_id < 1000)
+                $order_id = '0'.$order_id;
+
+            $orderData['total_price'] = number_format($price);
+            $orderData['order_id'] = $order_id;*/
         }
 
         if($count >= 1){
@@ -119,4 +138,6 @@ class AdminController extends Controller
             ]);
         }
     }
+
+
 }

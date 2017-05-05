@@ -35,18 +35,6 @@
                 </script>--}}
                 <div class="jumbotron col-md-12 col-xs-12" style="text-align: center;padding-top: 0;padding-bottom: 15px">
                     <div class="row" style="margin-bottom: 1%;align-content: center; align-items: center">
-                        {{--<h4>ลำดับที่</h4>--}}
-                        @for($i = 0; $i < strlen($orderData['order_id']); $i++)
-                            <div class="col-md-2 col-xs-3 @if($i == 0) col-md-offset-2 col-xs-offset-0 @endif">
-                                <div style="display: inline">
-                                    <h1 style="background: #FFFFFF;font-size: 40px;">
-                                        <b>{{ $orderData['order_id'][$i] }}</b>
-                                    </h1>
-                                </div>
-                            </div>
-                        @endfor
-                    </div>
-                    <div class="row" style="margin-bottom: 1%;align-content: center; align-items: center">
                         <div class="col-md-4 col-xs-4 col-md-offset-0 col-xs-offset-0" style="display: block;padding: 0">
                             <h3 style="border: #cd7f32 solid; margin: 0 15% 0 15%; padding: 2%">9 นิ้ว</h3>
                             <h1 style="font-size: 100px; background: #cd7f32; margin: 0 15% 0 15%">
@@ -130,11 +118,6 @@
                             <h1 style="font-size: 100px;display: inline">
                                 <b> {{ $orderData['total_price'] }} </b>
                             </h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1">
-                            <a href="{{ url()->previous() }}" id="btn-done" class="btn btn-success btn-lg">กลับ</a>
                         </div>
                     </div>
                 </div>

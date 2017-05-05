@@ -38,6 +38,7 @@
                     <div class="panel-footer">
                         <a href="{{ url('admin/participant/list') }}" class="btn btn-success btn-lg btn-block">รายชื่อ</a>
                         <a href="{{ url('admin/participant/search') }}" class="btn btn-warning btn-lg btn-block">ค้นหา</a>
+                        <a href="{{ url('admin/summary') }}" class="btn btn-default btn-lg btn-block">สรุป</a>
                     </div>
                 </div>
             </div>

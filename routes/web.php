@@ -65,6 +65,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('participant/order/{order_id}', 'ParticipantController@orderList');
 
+    Route::get('participant/gain_order/{order_id}', 'ParticipantController@record');
+
     Route::get('participant/list', 'AdminController@index');
     Route::get('participant/search', 'AdminController@search');
     Route::post('participant/search', 'AdminController@query');
@@ -75,7 +77,9 @@ Route::group(['prefix' => 'admin'], function () {
         return view('complete');
     });
 
+    //Route::get('complete', 'ParticipantController@complete')
 
+    Route::get('summary', 'ParticipantController@summary');
 });
 #-----------------------------------------------------------------------------------------------------------------------
 
