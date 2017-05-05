@@ -243,9 +243,7 @@ class ParticipantController extends Controller
                 if($participant->is_gain == 1){
                     return redirect()->action('ParticipantController@handleError', ['error_msg' => 'already_gain_item']);
                 }
-                $participant->is_gain = 1;
-                $participant->gain_time = Carbon::now();
-                $participant->save();
+
             }
             return redirect()->action('ParticipantController@orderList', ['order_id' => $order_id]);
         }else {
@@ -393,6 +391,11 @@ class ParticipantController extends Controller
         $orderData['order_id'] = $order_id;
         //return $orderData;
 
+        $participant = Participant::where('order_id', '=', $order_id)->first();
+        $participant->is_gain = 1;
+        $participant->gain_time = Carbon::now();
+        $participant->save();
+
         return view('participant.order', ['orderData' => $orderData]);
     }
 
@@ -418,6 +421,12 @@ class ParticipantController extends Controller
             ];
         }
 
+        elseif ($error_msg == 'already_gain_item'){
+            $error_message = [
+                'header'    =>  'ลงทะเบียนรับของเรียบร้อย',
+                'content'   =>  ''
+            ];
+        }
         return view('error', ['error_message' => $error_message]);
     }
 
@@ -433,5 +442,31 @@ class ParticipantController extends Controller
         }
 
         return $participants;
+    }
+
+    public function viewOrder($order_id)
+    {
+        $orderData = [];
+
+        $itemOrders = ItemOrder::where('order_id', '=', $order_id)->get();
+        $price = 0;
+        foreach ($itemOrders as $itemOrder){
+            $itemOrder->item;
+            $price += $itemOrder->item->price * $itemOrder->amount;
+            $orderData[$itemOrder->item_id] = $itemOrder;
+        }
+
+        if($order_id < 10)
+            $order_id = '000'.$order_id;
+        elseif ($order_id < 100)
+            $order_id = '00'.$order_id;
+        elseif ($order_id < 1000)
+            $order_id = '0'.$order_id;
+
+        $orderData['total_price'] = number_format($price);
+        $orderData['order_id'] = $order_id;
+        //return $orderData;
+
+        return view('participant.order', ['orderData' => $orderData]);
     }
 }

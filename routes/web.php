@@ -70,6 +70,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('participant/search', 'AdminController@query');
     Route::get('participant/show/{order_id}', 'AdminController@show');
 
+    Route::get('view/{order_id}', 'ParticipantController@viewOrder');
+    Route::get('complete', function (){
+        return view('complete');
+    });
+
+
 });
 #-----------------------------------------------------------------------------------------------------------------------
 

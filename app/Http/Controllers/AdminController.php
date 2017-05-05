@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Participant;
 use Illuminate\Http\Request;
+use App\ItemOrder;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $participants = Participant::orderBy('order_id', 'desc')->paginate(15);
+        $participants = Participant::orderBy('order_id', 'asc')->paginate(15);
         $participants = $this->translateCategory($participants);
         return view('admin.index', ['participants' => $participants]);
     }
@@ -78,16 +79,38 @@ class AdminController extends Controller
         if($search_by == 'order_id'){
             $participants = Participant::where('order_id','=', $query)->get();
             $count = Participant::where('order_id', $query)->count();
+
+            $order_id = $query;
+            $orderData = [];
+
+            $itemOrders = ItemOrder::where('order_id', '=', $order_id)->get();
+            $price = 0;
+            foreach ($itemOrders as $itemOrder){
+                $itemOrder->item;
+                $price += $itemOrder->item->price * $itemOrder->amount;
+                $orderData[$itemOrder->item_id] = $itemOrder;
+            }
+
+            if($order_id < 10)
+                $order_id = '000'.$order_id;
+            elseif ($order_id < 100)
+                $order_id = '00'.$order_id;
+            elseif ($order_id < 1000)
+                $order_id = '0'.$order_id;
+
+            $orderData['total_price'] = number_format($price);
+            $orderData['order_id'] = $order_id;
+
         }else{
             $participants = Participant::where('name','=', $query)->get();
             $count = Participant::where('name', $query)->count();
         }
 
-
         if($count >= 1){
             return view('admin.search', [
                 'search_option' => $search_option,
-                'participants' => $participants
+                'participants' => $participants,
+                'orderData' => $orderData
             ]);
         }
         else{
