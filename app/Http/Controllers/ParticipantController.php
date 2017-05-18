@@ -468,6 +468,8 @@ class ParticipantController extends Controller
     public function summary()
     {
         $participants = Participant::where('is_gain', '=', 1)->get();
+        $count = Participant::where('is_gain', '=', 1)->count();
+        $all = Participant::all()->count();
         $orderData = [];
         $orderData[1] = 0;
         $orderData[2] = 0;
@@ -507,7 +509,7 @@ class ParticipantController extends Controller
                 }
             }
         }
-        return view('summary', ['orderData' => $orderData]);
+        return view('summary', ['orderData' => $orderData, 'count' => $count, 'all' => $all]);
     }
 
     public function record($order_id)
