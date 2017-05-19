@@ -7,7 +7,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
 @if(Request::is('admin/summary'))
-    <meta http-equiv="refresh" content="5" >
+    <meta http-equiv="refresh" content="60" >
 @endif
 
 <title>The Register</title>

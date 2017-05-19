@@ -9,7 +9,7 @@
     <div class="jumbotron col-md-12 col-xs-12" style="text-align: center;padding-top: 0;padding-bottom: 15px">
         <div class="row" style="margin-bottom: 1%;align-content: center; align-items: center">
             <h2>สรุปข้อมูล</h2>
-            <h1><b>{{ $count }}</b> / <b>{{ $all }}</b></h1>
+            <h1><b>{{ $count }}</b> / <b>{{ $all }} = {{ round(($count/$all)*100, 2) }} %</b></h1>
         </div>
         <div class="row" style="margin-bottom: 1%;align-content: center; align-items: center">
             <div class="col-md-4 col-xs-4 col-md-offset-0 col-xs-offset-0" style="display: block;padding: 0">

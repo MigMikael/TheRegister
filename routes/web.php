@@ -68,6 +68,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('participant/gain_order/{order_id}', 'ParticipantController@record');
 
     Route::get('participant/list', 'AdminController@index');
+    Route::get('participant/gain_list/{value}', 'ParticipantController@gainList');
+
     Route::get('participant/search', 'AdminController@search');
     Route::post('participant/search', 'AdminController@query');
     Route::get('participant/show/{order_id}', 'AdminController@show');

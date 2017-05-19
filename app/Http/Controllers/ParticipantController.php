@@ -521,4 +521,16 @@ class ParticipantController extends Controller
 
         return view('complete');
     }
+
+
+    public function gainList($value)
+    {
+        if($value == 1){
+            $participants = Participant::where('is_gain', 1)->orderBy('gain_time', 'desc')->paginate(15);
+        }elseif($value == 0){
+            $participants = Participant::where('is_gain', 0)->orderBy('order_id')->paginate(15);
+        }
+
+        return view('admin.index', ['participants' => $participants]);
+    }
 }
